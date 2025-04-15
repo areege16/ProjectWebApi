@@ -12,8 +12,8 @@ using WebApiProject.Models;
 namespace WebApiProject.Migrations
 {
     [DbContext(typeof(LostFoundContext))]
-    [Migration("20250414203745_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250415152708_NeW DB")]
+    partial class NeWDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

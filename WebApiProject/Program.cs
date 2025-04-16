@@ -4,7 +4,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using WebApiProject.Hubs;
+using WebApiProject.Interfaces;
 using WebApiProject.Models;
+using WebApiProject.Repository;
 
 namespace WebApiProject
 {
@@ -41,9 +44,9 @@ namespace WebApiProject
                     options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new()
                     {
-                        ValidateIssuer = true,
+                        ValidateIssuer = false,
                         ValidIssuer = builder.Configuration["JWT:Iss"],
-                        ValidateAudience = true,
+                        ValidateAudience = false,
                         ValidAudience = builder.Configuration["JWT:Aud"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
                     };
@@ -52,6 +55,15 @@ namespace WebApiProject
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+
+
+            //Inject for  Lost Item Chat 
+            builder.Services.AddScoped<ILostItemCurrentUserRepo, LostItemCurrentUserRepo>();
+            builder.Services.AddScoped<ILostItemMsgRepo, LostItemMsgRepo>();
+            builder.Services.AddSignalR();
+            builder.Services.AddHttpContextAccessor();
+
 
             var app = builder.Build();
 
@@ -67,6 +79,7 @@ namespace WebApiProject
 
 
             app.MapControllers();
+            app.MapHub<HLostItemChatHub>("/HLostItemChatHub");
 
             app.Run();
         }

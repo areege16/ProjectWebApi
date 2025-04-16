@@ -11,11 +11,11 @@ namespace WebApiProject.Models
 
         [ForeignKey("User")]
         public string UserId { set; get; }
-        public ApplicationUser User { get; set; }
+        public ApplicationUser? User { get; set; }
 
 
         [ForeignKey("ItemFound")]
         public int ItemFoundID { set; get; }
-        public ItemFound ItemFound { set; get; }     
+        public ItemFound? ItemFound { set; get; }
     }
 }

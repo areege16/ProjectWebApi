@@ -2,9 +2,14 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using WebApiProject.Helpers;
+using WebApiProject.Hubs;
+using WebApiProject.Interfaces;
 using WebApiProject.Models;
+using WebApiProject.Service;
 
 namespace WebApiProject
 {
@@ -53,6 +58,11 @@ namespace WebApiProject
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            //chatFound
+            builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+            builder.Services.AddScoped<IChatFoundService, ChatFoundService>();
+            builder.Services.AddSignalR();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -65,7 +75,7 @@ namespace WebApiProject
             app.UseAuthentication();
             app.UseAuthorization();
 
-
+            app.MapHub<ChatFoundHub>("/chatFoundHub");
             app.MapControllers();
 
             app.Run();

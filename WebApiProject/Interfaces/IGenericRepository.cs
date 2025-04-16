@@ -1,12 +1,12 @@
 ﻿namespace WebApiProject.Interfaces
 {
-    public interface IGenericRepository<T>
+    public interface IGenericRepository<T> where T : class
     {
-        void Insert(T obj);
+        Task InsertAsync(T obj);
         void Update(T obj);
-        void Delete(int id);
-        void Save();
-        List<T> GetAll();
-        T GetById(int id);
+        Task DeleteAsync(int id);
+        Task SaveAsync();
+        IQueryable<T> GetAllAsync();
+        Task<T> GetByIdAsync(int id);
     }
 }

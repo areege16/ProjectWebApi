@@ -17,6 +17,8 @@ namespace WebApiProject.Models
         public ItemLost? ItemLost { get; set; }
 
 
+
+
         [ForeignKey("Sender")]
         public string SenderId { get; set; }
         public ApplicationUser? Sender { get; set; }

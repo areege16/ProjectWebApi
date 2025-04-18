@@ -88,8 +88,8 @@ namespace WebApiProject
             app.UseAuthorization();
 
             app.MapHub<ChatFoundHub>("/chatFoundHub");
-            app.MapControllers();
             app.MapHub<HLostItemChatHub>("/HLostItemChatHub");
+            app.MapControllers();
 
             app.Run();
         }

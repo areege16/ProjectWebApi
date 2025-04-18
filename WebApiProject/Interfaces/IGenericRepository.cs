@@ -6,7 +6,7 @@
         void Update(T obj);
         Task DeleteAsync(int id);
         Task SaveAsync();
-        IQueryable<T> GetAllAsync();
+        IQueryable<T> GetAll();
         Task<T> GetByIdAsync(int id);
     }
 }

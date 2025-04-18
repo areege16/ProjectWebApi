@@ -155,5 +155,22 @@ namespace WebApiProject.Controllers
         }
 
 
+
+        [HttpDelete("DeleteLost{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await lostItemRepo.DeleteAsync(id);
+            await lostItemRepo.SaveAsync();
+            return Ok();
+        }
+
+        [HttpPost("GetAllLlost")]
+        public IActionResult GetAllLost()
+        {
+            List<ItemLost> itemLosts =  lostItemRepo.GetAll().ToList();
+            return Ok(itemLosts);
+        }
+
+
     }
 }

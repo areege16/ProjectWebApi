@@ -22,7 +22,7 @@ namespace WebApiProject.Repository
             }
         }
 
-        public IQueryable<T> GetAllAsync()
+        public IQueryable<T> GetAll()
         {
             return dbSet;
         }

@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using WebApiProject.enums;
-using WebApiProject.Models;
+﻿using WebApiProject.enums;
 
 namespace WebApiProject.DTO
 {
-    public class AddLostItemDTO
+    public class EditLostItemDTO
     {
+        public int Id { get; set; }
         public string name { set; get; }
         public string description { set; get; }
         public Category category { set; get; }
@@ -14,7 +13,5 @@ namespace WebApiProject.DTO
         public ItemStatus Status { set; get; }
         public DateTime CreatedAt { get; set; }
         public DateTime? DateFound { get; set; }
-        //public string UserId { set; get; }
-
     }
 }

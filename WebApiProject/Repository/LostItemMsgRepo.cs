@@ -37,7 +37,7 @@ namespace WebApiProject.Repository
             };
 
             var msgs = context.chatLostItems
-                .Where(m => (m.SenderId == CurrentUSerId || m.SenderId == SelectedUserId) && (m.ReceiverId == CurrentUSerId))
+                .Where(m => (m.SenderId == CurrentUSerId && m.ReceiverId == SelectedUserId) || (m.SenderId == SelectedUserId && m.ReceiverId == CurrentUSerId))
                 .Select(m => new LostItemMsgsInsideChatDTO()
                 {
                     Id = m.Id,

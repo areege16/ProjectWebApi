@@ -66,6 +66,7 @@ namespace WebApiProject
             //Inject for  Lost Item Chat 
             builder.Services.AddScoped<ILostItemCurrentUserRepo, LostItemCurrentUserRepo>();
             builder.Services.AddScoped<ILostItemMsgRepo, LostItemMsgRepo>();
+            builder.Services.AddScoped<ILostItemRepo, LostItemRepo>();
             builder.Services.AddSignalR();
             builder.Services.AddHttpContextAccessor();
 
@@ -73,7 +74,6 @@ namespace WebApiProject
             //chatFound
             builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
             builder.Services.AddScoped<IChatFoundService, ChatFoundService>();
-            builder.Services.AddSignalR();
 
             var app = builder.Build();
 

@@ -59,7 +59,7 @@ namespace WebApiProject.Controllers
             }
         }
 
-        [HttpPost("edit")]
+        [HttpPut("edit")]
         public async Task<IActionResult> EditLostItemAsync(EditLostItemDTO itemFromRequest)
         {
             ApplicationUser currentUser = await currentUserRepo.GetUser();

@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Google.Apis.Auth;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -7,6 +11,7 @@ using System.Security.Claims;
 using System.Text;
 using WebApiProject.DTO;
 using WebApiProject.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace WebApiProject.Controllers
 {
@@ -22,8 +27,66 @@ namespace WebApiProject.Controllers
         {
             this.userManager = userManager;
             this.configur = configur;
-        } 
+        }
         #endregion
+
+
+        [HttpGet("login-google")]
+        public IActionResult LoginWithGoogle()
+        {
+            var properties = new AuthenticationProperties
+            {
+                RedirectUri = Url.Action("GoogleResponse")
+            };
+            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+        }
+
+        [HttpGet("/signin-google")]
+        public async Task<IActionResult> GoogleResponse()
+        {
+            var authenticateResult = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            if (!authenticateResult.Succeeded)
+                return BadRequest("Google authentication failed.");
+
+            var email = authenticateResult.Principal.FindFirst(ClaimTypes.Email)?.Value;
+            var name = authenticateResult.Principal.FindFirst(ClaimTypes.Name)?.Value;
+
+            // Check if the user exists in the database
+            var user = await userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                user = new ApplicationUser
+                {
+                    UserName = email,
+                    Email = email
+                };
+                var result = await userManager.CreateAsync(user);
+                if (!result.Succeeded)
+                {
+                    return BadRequest("Error creating user.");
+                }
+            }
+
+            // Generate JWT
+            var claims = new List<Claim>
+    {
+        new Claim(ClaimTypes.NameIdentifier, user.Id),
+        new Claim(ClaimTypes.Name, user.UserName)
+    };
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configur["JWT:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var token = new JwtSecurityToken(
+                issuer: configur["JWT:Iss"],
+                audience: configur["JWT:Aud"],
+                claims: claims,
+                expires: DateTime.Now.AddDays(2),
+                signingCredentials: creds
+            );
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return Ok(new { message = "Google Login Success", token = jwt, expired = DateTime.Now.AddDays(2) });
+        }
+
 
         #region Register
         //Register

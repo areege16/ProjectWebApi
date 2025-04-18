@@ -19,7 +19,7 @@ namespace WebApiProject.Models
 
         [ForeignKey("User")]
         public string UserId { set; get; }
-        public ApplicationUser User { get; set; }
+        public ApplicationUser? User { get; set; }
 
 
         public ICollection<CommentFoundItem>? comments { get; set; }

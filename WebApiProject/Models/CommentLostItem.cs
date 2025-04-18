@@ -11,15 +11,15 @@ namespace WebApiProject.Models
 
         [ForeignKey("User")]
         public string UserId { set; get; }
-        public ApplicationUser User { get; set; }
+        public ApplicationUser? User { get; set; }
 
 
         [ForeignKey("itemLost")]
         public int ItemLostID { set; get; }
-        public ItemLost itemLost { set; get; }
+        public ItemLost? itemLost { set; get; }
 
 
-       
+
 
     }
 }

@@ -13,16 +13,16 @@ namespace WebApiProject.Models
 
         [ForeignKey("ItemFound")]
         public int ItemFoundId { get; set; }
-        public ItemFound ItemFound { get; set; }
+        public ItemFound? ItemFound { get; set; }
 
 
         [ForeignKey("Sender")]
         public string SenderId { get; set; }
-        public ApplicationUser Sender { get; set; }
+        public ApplicationUser? Sender { get; set; }
 
 
         [ForeignKey("Receiver")]
         public string ReceiverId { get; set; }
-        public ApplicationUser Receiver { get; set; }
+        public ApplicationUser? Receiver { get; set; }
     }
 }

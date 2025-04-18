@@ -67,6 +67,7 @@ namespace WebApiProject
             builder.Services.AddScoped<ILostItemCurrentUserRepo, LostItemCurrentUserRepo>();
             builder.Services.AddScoped<ILostItemMsgRepo, LostItemMsgRepo>();
             builder.Services.AddScoped<ILostItemRepo, LostItemRepo>();
+            builder.Services.AddScoped<ILostCommentRepo, LostCommentRepo>();
             builder.Services.AddSignalR();
             builder.Services.AddHttpContextAccessor();
 

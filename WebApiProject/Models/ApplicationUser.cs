@@ -17,8 +17,8 @@ namespace WebApiProject.Models
 
 
         [InverseProperty(nameof(ChatFoundItem.Sender))]
-        public virtual ICollection<ChatFoundItem> SentMessages { get; set; }
+        public virtual ICollection<ChatFoundItem>? SentMessages { get; set; }
         [InverseProperty(nameof(ChatFoundItem.Receiver))]
-        public virtual ICollection<ChatFoundItem> ReseivedMessages { get; set; }
+        public virtual ICollection<ChatFoundItem>? ReseivedMessages { get; set; }
     }
 }

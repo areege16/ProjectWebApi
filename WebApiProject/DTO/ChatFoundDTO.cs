@@ -8,7 +8,6 @@ namespace WebApiProject.DTO
         {
             Messages = new List<UserMessagesListDTO>();
         }
-
         public string CurrentUserId {  get; set; }
         public string ReceiverId { get; set; }
         public string ReceiverUserNsme { get; set; }

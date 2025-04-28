@@ -31,12 +31,13 @@ namespace WebApiProject.Controllers
         #endregion
 
 
+
         [HttpGet("login-google")]
         public IActionResult LoginWithGoogle()
         {
             var properties = new AuthenticationProperties
             {
-                RedirectUri = Url.Action("GoogleResponse")
+                RedirectUri = "/signin-google"
             };
             return Challenge(properties, GoogleDefaults.AuthenticationScheme);
         }
@@ -51,7 +52,6 @@ namespace WebApiProject.Controllers
             var email = authenticateResult.Principal.FindFirst(ClaimTypes.Email)?.Value;
             var name = authenticateResult.Principal.FindFirst(ClaimTypes.Name)?.Value;
 
-            // Check if the user exists in the database
             var user = await userManager.FindByEmailAsync(email);
             if (user == null)
             {
@@ -67,12 +67,12 @@ namespace WebApiProject.Controllers
                 }
             }
 
-            // Generate JWT
             var claims = new List<Claim>
-    {
-        new Claim(ClaimTypes.NameIdentifier, user.Id),
-        new Claim(ClaimTypes.Name, user.UserName)
-    };
+        {
+            new Claim(ClaimTypes.NameIdentifier, user.Id),
+            new Claim(ClaimTypes.Name, user.UserName)
+        };
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configur["JWT:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
@@ -82,11 +82,16 @@ namespace WebApiProject.Controllers
                 expires: DateTime.Now.AddDays(2),
                 signingCredentials: creds
             );
+
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return Ok(new { message = "Google Login Success", token = jwt, expired = DateTime.Now.AddDays(2) });
+            return Ok(new
+            {
+                message = "Google Login Success",
+                token = jwt,
+                expired = DateTime.Now.AddDays(2)
+            });
         }
-
 
         #region Register
         //Register

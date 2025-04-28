@@ -143,6 +143,7 @@
 //}
 
 
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -177,6 +178,8 @@ namespace WebApiProject
             });
 
             builder.Services.AddScoped<IFoundItemRepository, FoundItemRepository>();
+            builder.Services.AddScoped<IFoundCommentRepo, FoundCommentRepo>();
+
 
 
             //for authentication
